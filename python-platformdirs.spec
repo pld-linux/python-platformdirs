@@ -1,19 +1,19 @@
 %define		module	platformdirs
 Summary:	Python module for determining appropriate platform-specific dirs
-Name:		python3-%{module}
-Version:	2.4.0
+Name:		python-%{module}
+Version:	2.0.2
 Release:	1
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/platformdirs/
 Source0:	https://files.pythonhosted.org/packages/source/p/platformdirs/%{module}-%{version}.tar.gz
-# Source0-md5:	4e5b836d19600cc4bf0b789ab1de3b51
+# Source0-md5:	e11ea2bee61b06c46e7db5576cc56624
 URL:		https://pypi.org/project/platformdirs/
-BuildRequires:	python3-modules >= 1:3.6
-BuildRequires:	python3-setuptools
+BuildRequires:	python-modules >= 2.7
+BuildRequires:	python-setuptools
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
-Requires:	python3-modules >= 1:3.6
+Requires:	python-modules >= 1:2.7
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -25,12 +25,14 @@ dirs, e.g. a "user data dir".
 %setup -q -n %{module}-%{version}
 
 %build
-%py3_build
+%py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py_install
+
+%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -38,8 +40,5 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGES.rst README.rst
-%dir %{py3_sitescriptdir}/%{module}
-%{py3_sitescriptdir}/%{module}/*.py
-%{py3_sitescriptdir}/%{module}/__pycache__
-%{py3_sitescriptdir}/%{module}/py.typed
-%{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%{py_sitescriptdir}/%{module}.py[co]
+%{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
