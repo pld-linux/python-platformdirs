@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	tests	# unit tests
+
 %define		module	platformdirs
 Summary:	Python module for determining appropriate platform-specific dirs
 Summary(pl.UTF-8):	Moduł Pythona do określania odpowiednich katalogów specyficznych dla platformy
@@ -31,6 +35,10 @@ dla platformy, np. "katalog danych użytkownika".
 
 %build
 %py_build
+
+%if %{with tests}
+%{__python} test/test_api.py
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
